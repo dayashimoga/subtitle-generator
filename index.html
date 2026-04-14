@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtitle Generator | QuickUtils</title>
+    <meta name="keywords" content="QuickUtils, subtitle, generator, code, design, productivity, online tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://quickutils.top/subtitle-generator/">
+    <meta property="og:title" content="Subtitle Generator | QuickUtils">
+    <meta property="og:description" content="Real-time speech-to-text subtitle creation using browser's Web Speech API. Export as .SRT files.">
+    <meta property="og:url" content="https://quickutils.top/subtitle-generator/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="Real-time speech-to-text subtitle creation using browser's Web Speech API. Export as .SRT files.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎤</text></svg>">
+    <link rel="stylesheet" href="quickutils-core.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="grid-bg">
+    <nav class="navbar glass-nav"><div class="container nav-inner">
+        <a href="https://quickutils.top" class="brand holo-text">🎤 Subtitle Generator</a>
+        <div class="nav-links">
+            <a href="https://ko-fi.com/dayatin" target="_blank" class="kofi-link">☕ Support</a>
+            <button id="themeBtn" class="theme-btn">🌙</button>
+        </div>
+    </div></nav>
+    <main class="container py-4">
+        <div class="hero-section text-center mb-4"><h1 class="gradient-text">AI Subtitle Generator</h1><p class="text-muted">Speak and get subtitles instantly — export as .SRT</p></div>
+    <div class="glass-card p-4 text-center">
+        <button id="recordBtn" class="btn btn-primary" style="font-size:1.5rem;padding:15px 40px;">🎙️ Start Recording</button>
+        <div class="d-flex gap-2 justify-content-center mt-3"><select id="langRec" class="form-control" style="max-width:200px;"><option value="en-US">English</option><option value="es-ES">Spanish</option><option value="fr-FR">French</option><option value="de-DE">German</option><option value="ja-JP">Japanese</option><option value="hi-IN">Hindi</option></select><button class="btn btn-secondary" id="exportBtn">⬇️ Download .SRT</button><button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button></div>
+    </div>
+    <div class="glass-card p-4 mt-4" id="transcriptLog" style="min-height:200px;max-height:400px;overflow-y:auto;font-family:monospace;font-size:0.9rem;background:rgba(0,0,0,0.3);border-radius:8px;"></div>
+    </main>
+    <footer class="footer"><div class="container copyright text-center py-4">© 2026 QuickUtils. All rights reserved.</div></footer>
+    <script src="quickutils-core.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
