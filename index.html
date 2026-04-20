@@ -44,16 +44,43 @@
         </div>
     </div></nav>
     <main class="container py-4">
-        <div class="hero-section text-center mb-4"><h1 class="gradient-text">AI Subtitle Generator</h1><p class="text-muted">Speak and get subtitles instantly — export as .SRT</p></div>
+        <div class="hero-section text-center mb-4"><h1 class="gradient-text">AI Subtitle Generator</h1><p class="text-muted">Speak and get subtitles instantly — multi-format export with inline editing</p></div>
     <div class="glass-card p-4 text-center">
-        <button id="recordBtn" class="btn btn-primary" style="font-size:1.5rem;padding:15px 40px;">🎙️ Start Recording</button>
-        <div class="d-flex gap-2 justify-content-center mt-3"><select id="langRec" class="form-control" style="max-width:200px;"><option value="en-US">English</option><option value="es-ES">Spanish</option><option value="fr-FR">French</option><option value="de-DE">German</option><option value="ja-JP">Japanese</option><option value="hi-IN">Hindi</option></select><button class="btn btn-secondary" id="exportBtn">⬇️ Download .SRT</button><button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button></div>
+        <button id="recordBtn" class="btn btn-primary" style="font-size:1.5rem;padding:15px 40px;border-radius:50px;transition:all 0.3s;">🎙️ Start Recording</button>
+        <div id="interimText" style="margin-top:0.75rem;color:#a78bfa;font-style:italic;min-height:1.5em;opacity:0;transition:opacity 0.3s;"></div>
+        <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;">
+            <select id="langRec" class="form-control" style="max-width:180px;padding:8px;background:rgba(0,0,0,0.2);color:inherit;border:1px solid rgba(255,255,255,0.15);border-radius:8px;">
+                <option value="en-US">🇺🇸 English (US)</option><option value="en-GB">🇬🇧 English (UK)</option>
+                <option value="es-ES">🇪🇸 Spanish</option><option value="fr-FR">🇫🇷 French</option>
+                <option value="de-DE">🇩🇪 German</option><option value="it-IT">🇮🇹 Italian</option>
+                <option value="pt-BR">🇧🇷 Portuguese</option><option value="ja-JP">🇯🇵 Japanese</option>
+                <option value="ko-KR">🇰🇷 Korean</option><option value="zh-CN">🇨🇳 Chinese</option>
+                <option value="hi-IN">🇮🇳 Hindi</option><option value="ar-SA">🇸🇦 Arabic</option>
+                <option value="ru-RU">🇷🇺 Russian</option><option value="nl-NL">🇳🇱 Dutch</option>
+            </select>
+            <button class="btn btn-secondary" id="importBtn" title="Import .SRT file">📂 Import</button>
+            <label class="btn btn-secondary" style="cursor:pointer;margin:0;" title="Load video for sync">🎬 Video <input type="file" id="videoUpload" accept="video/*" style="display:none;"></label>
+            <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
+        </div>
+        <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:0.75rem;">
+            <span style="font-size:0.75rem;color:var(--text-muted);align-self:center;">Export as:</span>
+            <button class="btn btn-primary btn-sm" id="exportBtn">⬇️ .SRT</button>
+            <button class="btn btn-secondary btn-sm" id="exportVTTBtn">📝 .VTT</button>
+            <button class="btn btn-secondary btn-sm" id="exportASSBtn">🎭 .ASS</button>
+            <button class="btn btn-secondary btn-sm" id="exportJSONBtn">{ } JSON</button>
+            <button class="btn btn-secondary btn-sm" id="exportTXTBtn">📄 .TXT</button>
+        </div>
     </div>
-    <div class="glass-card p-4 mt-4" id="transcriptLog" style="min-height:200px;max-height:400px;overflow-y:auto;font-family:monospace;font-size:0.9rem;background:rgba(0,0,0,0.3);border-radius:8px;"></div>
+    <div id="subStats" style="text-align:center;padding:0.5rem;font-size:0.8rem;color:var(--text-muted);display:flex;gap:0.75rem;justify-content:center;margin-top:0.5rem;"></div>
+    <div id="videoContainer" class="mt-3"></div>
+    <div class="glass-card p-4 mt-3" id="transcriptLog" style="min-height:200px;max-height:500px;overflow-y:auto;font-family:'Fira Code',monospace;font-size:0.85rem;background:rgba(0,0,0,0.3);border-radius:12px;"></div>
+    <div style="text-align:center;margin-top:0.5rem;font-size:0.7rem;color:var(--text-muted);">⌨️ Ctrl+R to record · Ctrl+S to save · Click subtitle to jump video · ✏️ Edit · ✂️ Split · 🔗 Merge</div>
     </main>
     <footer class="footer"><div class="container copyright text-center py-4">© 2026 QuickUtils. All rights reserved.</div></footer>
     <script src="quickutils-core.js"></script>
     <script src="script.js"></script>
+
+
 
 
 
@@ -164,6 +191,8 @@
    </div>
 </div>
 <!-- /QuickUtils Network Promo -->
+
+
 
 
 
