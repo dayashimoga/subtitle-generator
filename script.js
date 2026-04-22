@@ -377,6 +377,103 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         }
     });
 
+    // ─── AUDIO UPLOAD TRANSLATION (Transformers.js) ───
+    const audioUpload = $('#audioUpload');
+    if (audioUpload) {
+        audioUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const interim = $('#interimText');
+            if (interim) {
+                interim.style.opacity = '1';
+                interim.textContent = 'Loading AI Transcriber model... (may take a moment)';
+            }
+            
+            try {
+                // Dynamically import transformers.js explicitly only when requested
+                const { pipeline, env } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0');
+                env.allowLocalModels = false; // download from HF hub
+                
+                if (interim) interim.textContent = 'Initializing Whisper model...';
+                
+                const transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en', {
+                    progress_callback: (prog) => {
+                        if (interim && prog.status === 'downloading') {
+                            interim.textContent = `Downloading model: ${Math.round(prog.progress)}%`;
+                        } else if (interim && prog.status === 'ready') {
+                            interim.textContent = 'Model loaded. Processing audio...';
+                        }
+                    }
+                });
+
+                // Decode audio to buffer
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (interim) interim.textContent = 'Decoding audio file...';
+                const arrayBuffer = await file.arrayBuffer();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                
+                // Resample to 16kHz
+                const offlineContext = new OfflineAudioContext(1, audioBuffer.duration * 16000, 16000);
+                const source = offlineContext.createBufferSource();
+                source.buffer = audioBuffer;
+                source.connect(offlineContext.destination);
+                source.start();
+                const resampled = await offlineContext.startRendering();
+                const audioData = resampled.getChannelData(0);
+
+                if (interim) interim.textContent = 'Transcribing audio (this may take a while depending on duration)...';
+
+                // We request timestamps
+                const result = await transcriber(audioData, {
+                    chunk_length_s: 30,
+                    stride_length_s: 5,
+                    return_timestamps: true
+                });
+
+                srt = [];
+                index = 1;
+                
+                if (result.chunks && result.chunks.length > 0) {
+                    result.chunks.forEach(chunk => {
+                        srt.push({
+                            id: index++,
+                            start: fTime(chunk.timestamp[0] * 1000),
+                            end: fTime(chunk.timestamp[1] * 1000),
+                            text: chunk.text.trim(),
+                            confidence: 100
+                        });
+                    });
+                } else if (result.text) {
+                    // Fallback
+                    srt.push({
+                        id: index++,
+                        start: fTime(0),
+                        end: fTime(audioBuffer.duration * 1000),
+                        text: result.text.trim(),
+                        confidence: 100
+                    });
+                }
+                
+                renderTranscript();
+                if (interim) {
+                    interim.textContent = 'Transcription complete!';
+                    setTimeout(() => { interim.style.opacity = '0'; interim.textContent = ''; }, 3000);
+                }
+
+                // If user uploaded audio, load it to video sync just to allow playback
+                loadVideo(file);
+                
+            } catch (err) {
+                console.error(err);
+                if (interim) {
+                    interim.textContent = 'Failed to transcribe audio. ' + err.message;
+                    setTimeout(() => { interim.style.opacity = '0'; }, 5000);
+                }
+            }
+        });
+    }
+
     // Export for testing
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = { fTime, fTimeVTT, parseTimeToMs, importSRT };

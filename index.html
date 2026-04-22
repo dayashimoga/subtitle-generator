@@ -60,6 +60,7 @@
             </select>
             <button class="btn btn-secondary" id="importBtn" title="Import .SRT file">📂 Import</button>
             <label class="btn btn-secondary" style="cursor:pointer;margin:0;" title="Load video for sync">🎬 Video <input type="file" id="videoUpload" accept="video/*" style="display:none;"></label>
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;" title="Upload Audio File for Transcription" id="audioUploadLbl">🎵 Generate from Audio <input type="file" id="audioUpload" accept="audio/*" style="display:none;"></label>
             <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
         </div>
         <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:0.75rem;">
@@ -78,15 +79,6 @@
     </main>
     <footer class="footer"><div class="container copyright text-center py-4">© 2026 QuickUtils. All rights reserved.</div></footer>
     <script src="quickutils-core.js"></script>
-    <script src="script.js"></script>
-
-
-
-
-
-
-
-
 <!-- QuickUtils Network Promo -->
 <div id="qu-promo-ribbon" style="position:relative; z-index:50; margin-top:2rem; padding:0; background:#111; border-top:1px solid rgba(128,128,128,0.3); text-align:center; font-family:sans-serif;">
    <button onclick="var c=document.getElementById('qu-promo-content');c.style.display=c.style.display==='none'?'block':'none';this.textContent=c.style.display==='none'?'🚀 Explore 90+ QuickUtils Apps ▼':'▲ Close'" style="width:100%;padding:10px;background:transparent;border:none;color:#aaa;cursor:pointer;font-size:0.85rem;font-family:inherit;">🚀 Explore 90+ QuickUtils Apps ▼</button>
